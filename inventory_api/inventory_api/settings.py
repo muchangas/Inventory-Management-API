@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'rest_framework.authtoken',
     'inventory',
 ]
 
@@ -121,3 +123,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # Use TokenAuthentication for production APIs
+        'rest_framework.authentication.TokenAuthentication',
+        # SessionAuthentication is good for the browsable API/debugging
+        'rest_framework.authentication.SessionAuthentication', 
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        # This makes all views require authentication by default
+        'rest_framework.permissions.IsAuthenticated',
+    ]
+}
