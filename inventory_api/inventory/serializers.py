@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from .models import InventoryItem
 
@@ -31,3 +32,21 @@ class LowStockSerializer(serializers.ModelSerializer):
     class Meta:
         model = InventoryItem
         fields = ['name', 'stock_level', 'reorder_point']
+    
+User = get_user_model()
+
+class UserSerializer(serializers.ModelSerializer):
+    password = serializers.CharField(write_only=True)
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password']
+
+    def create(self, validated_data):
+        # Use create_user to handle password hashing automatically
+        user = User.objects.create_user(
+            username=validated_data['username'],
+            email=validated_data.get('email'),
+            password=validated_data['password']
+        )
+        return user
