@@ -4,6 +4,7 @@ from rest_framework.authtoken import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/v1/inventory/', include('inventory.urls')),
-    path('api-token-auth/', views.obtain_auth_token), # Login endpoint
+    # This line is the "bridge" to your inventory app
+    path('api/v1/inventory/', include('inventory.urls')), 
+    path('api-token-auth/', views.obtain_auth_token),
 ]
